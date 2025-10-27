@@ -1,0 +1,189 @@
+-- 🌌 Dx HUB V3 - Có Scrolling + Tab thật + Auto delete
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local parentGui = player:WaitForChild("PlayerGui")
+
+-- 🧹 Auto delete GUI cũ
+if parentGui:FindFirstChild("DxHubV3") then
+	parentGui.DxHubV3:Destroy()
+end
+
+-- GUI chính
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "DxHubV3"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = parentGui
+
+-- 🔘 ICON
+local icon = Instance.new("TextButton")
+icon.Name = "DxIcon"
+icon.Size = UDim2.new(0, 50, 0, 50)
+icon.Position = UDim2.new(0.05, 30, 0.35, 0)
+icon.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+icon.Text = "Dx"
+icon.TextColor3 = Color3.fromRGB(255, 255, 255)
+icon.Font = Enum.Font.GothamBold
+icon.TextScaled = true
+icon.ZIndex = 5
+icon.Parent = screenGui
+
+local corner = Instance.new("UICorner", icon)
+corner.CornerRadius = UDim.new(1, 0)
+
+-- 🧲 Kéo icon
+local dragging, dragInput, dragStart, startPos
+local function update(input)
+	local delta = input.Position - dragStart
+	icon.Position = UDim2.new(
+		startPos.X.Scale,
+		startPos.X.Offset + delta.X,
+		startPos.Y.Scale,
+		startPos.Y.Offset + delta.Y
+	)
+end
+
+icon.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		dragging = true
+		dragStart = input.Position
+		startPos = icon.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then dragging = false end
+		end)
+	end
+end)
+icon.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+		dragInput = input
+	end
+end)
+UserInputService.InputChanged:Connect(function(input)
+	if input == dragInput and dragging then update(input) end
+end)
+
+-- 🧱 HUB chính
+local hub = Instance.new("Frame")
+hub.Size = UDim2.new(0, 460, 0, 340)
+hub.Position = UDim2.new(0.5, 0, 0.45, 0)
+hub.AnchorPoint = Vector2.new(0.5, 0.5)
+hub.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+hub.Visible = false
+hub.Parent = screenGui
+
+local hubCorner = Instance.new("UICorner", hub)
+hubCorner.CornerRadius = UDim.new(0, 16)
+
+-- Tiêu đề
+local title = Instance.new("TextLabel", hub)
+title.Size = UDim2.new(1, 0, 0, 60)
+title.Position = UDim2.new(0, 0, 0, 8)
+title.BackgroundTransparency = 1
+title.Text = "Dx HUB"
+title.Font = Enum.Font.GothamBold
+title.TextSize = 30
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+-- Sub
+local sub = Instance.new("TextLabel", hub)
+sub.Size = UDim2.new(1, 0, 0, 25)
+sub.Position = UDim2.new(0, 0, 0, 60)
+sub.BackgroundTransparency = 1
+sub.Text = "TikTok: dxgamingb"
+sub.Font = Enum.Font.Gotham
+sub.TextSize = 17
+sub.TextColor3 = Color3.fromRGB(200, 200, 200)
+
+-- Close Btn
+local closeBtn = Instance.new("TextButton", hub)
+closeBtn.Size = UDim2.new(0, 36, 0, 36)
+closeBtn.Position = UDim2.new(1, -48, 0, 12)
+closeBtn.BackgroundColor3 = Color3.fromRGB(200, 30, 30)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 20
+local closeCorner = Instance.new("UICorner", closeBtn)
+closeCorner.CornerRadius = UDim.new(1, 0)
+
+-- 📜 ScrollingFrame chứa tab
+local scroll = Instance.new("ScrollingFrame", hub)
+scroll.Size = UDim2.new(1, -40, 1, -150)
+scroll.Position = UDim2.new(0, 20, 0, 110)
+scroll.BackgroundTransparency = 1
+scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+scroll.ScrollBarThickness = 6
+
+local uiList = Instance.new("UIListLayout", scroll)
+uiList.SortOrder = Enum.SortOrder.LayoutOrder
+uiList.Padding = UDim.new(0, 10)
+
+uiList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	scroll.CanvasSize = UDim2.new(0, 0, 0, uiList.AbsoluteContentSize.Y + 10)
+end)
+
+-- Tạo nút
+local function CreateButton(text, url)
+	local btn = Instance.new("TextButton")
+	btn.Size = UDim2.new(1, -20, 0, 50)
+	btn.Position = UDim2.new(0, 10, 0, 0)
+	btn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+	btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	btn.Font = Enum.Font.GothamBold
+	btn.TextSize = 22
+	btn.Text = text
+	btn.Parent = scroll
+	local c = Instance.new("UICorner", btn)
+	c.CornerRadius = UDim.new(0, 10)
+
+	btn.MouseButton1Click:Connect(function()
+		pcall(function()
+			loadstring(game:HttpGet(url))()
+		end)
+	end)
+end
+
+-- ⚡ Các Tab
+CreateButton("Fly🪽", "https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt")
+CreateButton("HyperShot🔫", "https://raw.githubusercontent.com/XVCHub/Games/main/HyperShot")
+CreateButton("Dont Wake Brainrot", "https://raw.githubusercontent.com/gumanba/Scripts/main/DontWaketheBrainrots")
+CreateButton("Aimbot⭕️", "https://rawscripts.net/raw/Universal-Script-Aimbot-Universal-For-Mobile-and-PC-29153")
+
+-- 🌀 Hiệu ứng mở / đóng
+local function openHub()
+	local zoomOut = TweenService:Create(icon, TweenInfo.new(0.2, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Size = UDim2.new(0, 0, 0, 0)})
+	zoomOut:Play()
+	zoomOut.Completed:Wait()
+	icon.Visible = false
+
+	hub.Visible = true
+	hub.Size = UDim2.new(0, 100, 0, 100)
+	hub.BackgroundTransparency = 1
+
+	local tween = TweenService:Create(hub, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		Size = UDim2.new(0, 460, 0, 340),
+		BackgroundTransparency = 0
+	})
+	tween:Play()
+end
+
+local function closeHub()
+	local tween = TweenService:Create(hub, TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+		Size = UDim2.new(0, 100, 0, 100),
+		BackgroundTransparency = 1
+	})
+	tween:Play()
+	tween.Completed:Wait()
+	hub.Visible = false
+
+	icon.Visible = true
+	icon.Size = UDim2.new(0, 0, 0, 0)
+	local zoomIn = TweenService:Create(icon, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = UDim2.new(0, 50, 0, 50)})
+	zoomIn:Play()
+end
+
+icon.MouseButton1Click:Connect(openHub)
+closeBtn.MouseButton1Click:Connect(closeHub)
+
+print("✅ Dx HUB V3 (Scrolling + Tab) Loaded Successfully!")
