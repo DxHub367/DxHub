@@ -1,180 +1,30 @@
--- DxHub.lua (obfuscated)
-local function _d(t)local s=""for i=1,#t do s=s..string.char(t[i])end return s end
-local _=game:GetService
-local a=_( _d{84,119,101,101,110,83,101,114,118,105,99,101} )
-local b=_( _d{85,115,101,114,73,110,112,117,116,83,101,114,118,105,99,101} )
-local c=_( _d{80,108,97,121,101,114,115} )
-local pl=c.LocalPlayer
-local pg=pl:WaitForChild(_d{80,108,97,121,101,114,71,117,105})
--- destroy old
-if pg:FindFirstChild(_d{68,120,72,117,98,86,51}) then pg.DxHubV3:Destroy() end
--- gui
-local g=Instance.new(_d{83,99,114,101,101,110,71,117,105})
-g.Name=_d{68,120,72,117,98,86,51}
-g.ResetOnSpawn=false
-g.Parent=pg
--- icon
-local iN=Instance.new(_d{84,101,120,116,66,117,116,116,111,110})
-iN.Name=_d{68,120,73,99,111,110}
-iN.Size=UDim2.new(0,50,0,50)
-iN.Position=UDim2.new(0.05,30,0.35,0)
-iN.BackgroundColor3=Color3.fromRGB(0,0,0)
-iN.Text=_d{68,120}
-iN.TextColor3=Color3.fromRGB(255,255,255)
-iN.Font=Enum.Font.GothamBold
-iN.TextScaled=true
-iN.ZIndex=5
-iN.Parent=g
-Instance.new(_d{85,73,67,111,114,110},iN).CornerRadius=UDim.new(1,0)
--- drag
-local dg,di,ds,sp=false,nil,nil,nil
-local function up(inp)
- local dl=inp.Position-ds
- iN.Position=UDim2.new(sp.X.Scale,sp.X.Offset+dl.X,sp.Y.Scale,sp.Y.Offset+dl.Y)
-end
-iN.InputBegan:Connect(function(inp)
- if inp.UserInputType==Enum.UserInputType.MouseButton1 or inp.UserInputType==Enum.UserInputType.Touch then
-  dg=true; ds=inp.Position; sp=iN.Position
-  inp.Changed:Connect(function() if inp.UserInputState==Enum.UserInputState.End then dg=false end end)
- end
-end)
-iN.InputChanged:Connect(function(inp) if inp.UserInputType==Enum.UserInputType.MouseMovement or inp.UserInputType==Enum.UserInputType.Touch then di=inp end end)
-b.InputChanged:Connect(function(inp) if inp==di and dg then up(inp) end end)
--- hub
-local H=Instance.new(_d{70,114,97,109,101})
-H.Size=UDim2.new(0,460,0,340)
-H.Position=UDim2.new(0.5,0,0.45,0)
-H.AnchorPoint=Vector2.new(0.5,0.5)
-H.BackgroundColor3=Color3.fromRGB(12,12,12)
-H.Visible=false
-H.Parent=g
-Instance.new(_d{85,73,67,111,114,110},H).CornerRadius=UDim.new(0,16)
--- title
-local T=Instance.new(_d{84,101,120,116,76,97,98,101,108},H)
-T.Size=UDim2.new(1,0,0,60);T.Position=UDim2.new(0,0,0,8);T.BackgroundTransparency=1
-T.Text=_d{68,120,32,72,117,98};T.Font=Enum.Font.GothamBold;T.TextSize=30;T.TextColor3=Color3.fromRGB(255,255,255)
-local S=Instance.new(_d{84,101,120,116,76,97,98,101,108},H)
-S.Size=UDim2.new(1,0,0,25);S.Position=UDim2.new(0,0,0,60);S.BackgroundTransparency=1
-S.Text=_d{84,105,107,84,111,107,58,32,100,120,103,97,109,105,110,103,98};S.Font=Enum.Font.Gotham;S.TextSize=17;S.TextColor3=Color3.fromRGB(200,200,200)
--- close
-local X=Instance.new(_d{84,101,120,116,66,117,116,116,111,110},H)
-X.Size=UDim2.new(0,36,0,36);X.Position=UDim2.new(1,-48,0,12);X.BackgroundColor3=Color3.fromRGB(200,30,30)
-X.Text=_d{88};X.TextColor3=Color3.fromRGB(255,255,255);X.Font=Enum.Font.GothamBold;X.TextSize=20
-Instance.new(_d{85,73,67,111,114,110},X).CornerRadius=UDim.new(1,0)
--- left menu frame
-local L=Instance.new(_d{70,114,97,109,101},H)
-L.Size=UDim2.new(0,120,1, -40);L.Position=UDim2.new(0,12,0,80);L.BackgroundColor3=Color3.fromRGB(22,22,22)
-Instance.new(_d{85,73,67,111,114,110},L).CornerRadius=UDim.new(0,12)
-local homeBtn=Instance.new(_d{84,101,120,116,66,117,116,116,111,110},L)
-homeBtn.Size=UDim2.new(1,-16,0,48);homeBtn.Position=UDim2.new(0,8,0,8)
-homeBtn.Text=_d{84,114,97,110,103,32,99,104,117};homeBtn.Font=Enum.Font.GothamBold;homeBtn.TextSize=18
-homeBtn.BackgroundColor3=Color3.fromRGB(45,45,45);homeBtn.TextColor3=Color3.fromRGB(255,255,255)
-Instance.new(_d{85,73,67,111,114,110},homeBtn).CornerRadius=UDim.new(0,10)
-local cmdBtn=Instance.new(_d{84,101,120,116,66,117,116,116,111,110},L)
-cmdBtn.Size=UDim2.new(1,-16,0,48);cmdBtn.Position=UDim2.new(0,8,0,64)
-cmdBtn.Text=_d{86,97,110,32,98,97,110,32,108,101,110,104};cmdBtn.Font=Enum.Font.GothamBold;cmdBtn.TextSize=18
-cmdBtn.BackgroundColor3=Color3.fromRGB(45,45,45);cmdBtn.TextColor3=Color3.fromRGB(255,255,255)
-Instance.new(_d{85,73,67,111,114,110},cmdBtn).CornerRadius=UDim.new(0,10)
--- scrolling area
-local sc=Instance.new(_d{83,99,114,111,108,108,105,110,103,70,114,97,109,101},H)
-sc.Size=UDim2.new(1,-160,1,-160);sc.Position=UDim2.new(0,140,0,100);sc.BackgroundTransparency=1;sc.CanvasSize=UDim2.new(0,0,0,0);sc.ScrollBarThickness=6
-local list=Instance.new(_d{85,73,76,105,115,116,76,97,121,111,117,116},sc)
-list.SortOrder=Enum.SortOrder.LayoutOrder;list.Padding=UDim.new(0,10)
-list:GetPropertyChangedSignal(_d{65,98,115,111,108,117,116,101,67,111,110,116,101,110,116,83,105,122,101}):Connect(function()
- sc.CanvasSize=UDim2.new(0,0,0,list.AbsoluteContentSize.Y+10)
-end)
--- helper create button
-local function cb(t,u)
- local btt=Instance.new(_d{84,101,120,116,66,117,116,116,111,110})
- btt.Size=UDim2.new(1,-20,0,56);btt.Position=UDim2.new(0,10,0,0);btt.BackgroundColor3=Color3.fromRGB(45,45,45)
- btt.TextColor3=Color3.fromRGB(255,255,255);btt.Font=Enum.Font.GothamBold;btt.TextSize=22;btt.Text=t;btt.Parent=sc
- Instance.new(_d{85,73,67,111,114,110},btt).CornerRadius=UDim.new(0,10)
- btt.MouseButton1Click:Connect(function()
-  -- first show popup hint for 6s, second click executes
-  if not btt:GetAttribute(_d{77,101,115,115,97,103,101}) then
-   btt:SetAttribute(_d{77,101,115,115,97,103,101},true)
-   local ph=Instance.new(_d{70,114,97,109,101},g)
-   ph.Size=UDim2.new(0,380,0,110);ph.AnchorPoint=Vector2.new(1,0)
-   ph.Position=UDim2.new(0.98,0,0.15,0);ph.BackgroundColor3=Color3.fromRGB(38,38,38);ph.ClipsDescendants=false
-   local phc=Instance.new(_d{85,73,67,111,114,110},ph);phc.CornerRadius=UDim.new(0,10)
-   local phT=Instance.new(_d{84,101,120,116,76,97,98,101,108},ph);phT.Size=UDim2.new(1,0,0,30);phT.Position=UDim2.new(0,0,8);phT.BackgroundTransparency=1
-   phT.Text=t;phT.Font=Enum.Font.GothamBold;phT.TextSize=22;phT.TextColor3=Color3.fromRGB(255,255,255)
-   local phS=Instance.new(_d{84,101,120,116,76,97,98,101,108},ph);phS.Size=UDim2.new(1,-20,0,40);phS.Position=UDim2.new(0,10,0,40);phS.BackgroundTransparency=1
-   phS.Text=_d{66,97,109,32,108,97,110,32,110,104,97,32,100,101,32,107,105,99,104,32,104,111,97,116,32,70,108,121,46}
-   phS.Font=Enum.Font.Gotham;phS.TextSize=16;phS.TextColor3=Color3.fromRGB(190,190,190)
-   ph.Parent=g
-   a:Create(ph,TweenInfo.new(0.25,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Position=UDim2.new(0.98,0,0.15,0)}):Play()
-   delay(6,function()
-    pcall(function()
-     a:Create(ph,TweenInfo.new(0.2,Enum.EasingStyle.Quad,Enum.EasingDirection.In),{Position=UDim2.new(1.2,0,0.15,0)}):Play()
-     wait(0.25);ph:Destroy()
-     btt:SetAttribute(_d{77,101,115,115,97,103,101},nil)
-    end)
-   end)
-  else
-   -- execute script
-   pcall(function()
-    local ok,err=pcall(function() loadstring(game:HttpGet(u))() end)
-    if not ok then
-     -- silent
-    end
-   end)
-  end
- end)
- return btt
-end
+local TweenService=game:GetService("TweenService") local UserInputService=game:GetService("UserInputService") local Players=game:GetService("Players") local player=Players.LocalPlayer local parentGui=player:WaitForChild("PlayerGui")
+if parentGui:FindFirstChild("DxHubV3") then parentGui.DxHubV3:Destroy() end
+local screenGui=Instance.new("ScreenGui") screenGui.Name="DxHubV3" screenGui.ResetOnSpawn=false screenGui.Parent=parentGui
+local icon=Instance.new("TextButton") icon.Name="DxIcon" icon.Size=UDim2.new(0,50,0,50) icon.Position=UDim2.new(0.05,30,0.35,0) icon.BackgroundColor3=Color3.fromRGB(0,0,0) icon.Text="Dx" icon.TextColor3=Color3.fromRGB(255,255,255) icon.Font=Enum.Font.GothamBold icon.TextScaled=true icon.ZIndex=5 icon.Parent=screenGui
+Instance.new("UICorner",icon).CornerRadius=UDim.new(1,0)
+local dragging,dragInput,dragStart,startPos
+local function update(input) local delta=input.Position-dragStart icon.Position=UDim2.new(startPos.X.Scale,startPos.X.Offset+delta.X,startPos.Y.Scale,startPos.Y.Offset+delta.Y) end
+icon.InputBegan:Connect(function(input) if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then dragging=true dragStart=input.Position startPos=icon.Position input.Changed:Connect(function() if input.UserInputState==Enum.UserInputState.End then dragging=false end end) end end)
+icon.InputChanged:Connect(function(input) if input.UserInputType==Enum.UserInputType.MouseMovement or input.UserInputType==Enum.UserInputType.Touch then dragInput=input end end)
+UserInputService.InputChanged:Connect(function(input) if input==dragInput and dragging then update(input) end end)
+local hub=Instance.new("Frame") hub.Size=UDim2.new(0,460,0,340) hub.Position=UDim2.new(0.5,0,0.45,0) hub.AnchorPoint=Vector2.new(0.5,0.5) hub.BackgroundColor3=Color3.fromRGB(12,12,12) hub.Visible=false hub.Parent=screenGui Instance.new("UICorner",hub).CornerRadius=UDim.new(0,16)
+local title=Instance.new("TextLabel",hub) title.Size=UDim2.new(1,0,0,60) title.Position=UDim2.new(0,0,0,8) title.BackgroundTransparency=1 title.Text="Dx HUB" title.Font=Enum.Font.GothamBold title.TextSize=30 title.TextColor3=Color3.fromRGB(255,255,255)
+local sub=Instance.new("TextLabel",hub) sub.Size=UDim2.new(1,0,0,25) sub.Position=UDim2.new(0,0,0,60) sub.BackgroundTransparency=1 sub.Text="TikTok: dxgamingb" sub.Font=Enum.Font.Gotham sub.TextSize=17 sub.TextColor3=Color3.fromRGB(200,200,200)
+local closeBtn=Instance.new("TextButton",hub) closeBtn.Size=UDim2.new(0,36,0,36) closeBtn.Position=UDim2.new(1,-48,0,12) closeBtn.BackgroundColor3=Color3.fromRGB(200,30,30) closeBtn.Text="X" closeBtn.TextColor3=Color3.fromRGB(255,255,255) closeBtn.Font=Enum.Font.GothamBold closeBtn.TextSize=20 Instance.new("UICorner",closeBtn).CornerRadius=UDim.new(1,0)
+local scroll=Instance.new("ScrollingFrame",hub) scroll.Size=UDim2.new(1,-40,1,-150) scroll.Position=UDim2.new(0,20,0,110) scroll.BackgroundTransparency=1 scroll.CanvasSize=UDim2.new(0,0,0,0) scroll.ScrollBarThickness=6 scroll.VerticalScrollBarInset=Enum.ScrollBarInset.Always
+local uiList=Instance.new("UIListLayout",scroll) uiList.SortOrder=Enum.SortOrder.LayoutOrder uiList.Padding=UDim.new(0,10)
+uiList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function() scroll.CanvasSize=UDim2.new(0,0,0,uiList.AbsoluteContentSize.Y+10) end)
+local notifFrame=Instance.new("Frame") notifFrame.Size=UDim2.new(0,300,0,70) notifFrame.Position=UDim2.new(1,-320,0,20) notifFrame.AnchorPoint=Vector2.new(0,0) notifFrame.BackgroundTransparency=0.1 notifFrame.BackgroundColor3=Color3.fromRGB(30,30,30) notifFrame.Visible=false notifFrame.Parent=screenGui Instance.new("UICorner",notifFrame).CornerRadius=UDim.new(0,8)
+local notifTitle=Instance.new("TextLabel",notifFrame) notifTitle.Size=UDim2.new(1,-20,0,30) notifTitle.Position=UDim2.new(0,10,0,10) notifTitle.BackgroundTransparency=1 notifTitle.Font=Enum.Font.GothamBold notifTitle.TextSize=18 notifTitle.TextColor3=Color3.fromRGB(255,255,255) notifTitle.TextXAlignment=Enum.TextXAlignment.Left
+local notifBody=Instance.new("TextLabel",notifFrame) notifBody.Size=UDim2.new(1,-20,0,30) notifBody.Position=UDim2.new(0,10,0,35) notifBody.BackgroundTransparency=1 notifBody.Font=Enum.Font.Gotham notifBody.TextSize=14 notifBody.TextColor3=Color3.fromRGB(200,200,200) notifBody.TextWrapped=true notifBody.TextXAlignment=Enum.TextXAlignment.Left
+local tabState={} 
+local function showNotif(titleText,bodyText,duration) duration=duration or 6 notifTitle.Text=titleText or "Thông báo" notifBody.Text=bodyText or "" notifFrame.Visible=true local t=TweenService:Create(notifFrame,TweenInfo.new(0.2,Enum.EasingStyle.Quad),{BackgroundTransparency=0}) t:Play() delay(duration,function() if notifFrame and notifFrame.Visible then local t2=TweenService:Create(notifFrame,TweenInfo.new(0.18,Enum.EasingStyle.Quad),{BackgroundTransparency=1}) t2:Play() t2.Completed:Wait() notifFrame.Visible=false end end) end
+local function CreateButton(text,url,notifTitle,notifBody) local btn=Instance.new("TextButton") btn.Size=UDim2.new(1,-20,0,50) btn.BackgroundColor3=Color3.fromRGB(45,45,45) btn.TextColor3=Color3.fromRGB(255,255,255) btn.Font=Enum.Font.GothamBold btn.TextSize=22 btn.Text=text btn.Parent=scroll Instance.new("UICorner",btn).CornerRadius=UDim.new(0,10) tabState[btn]={clicked=false,timer=nil} btn.MouseButton1Click:Connect(function() local state=tabState[btn] if not state.clicked then state.clicked=true showNotif(notifTitle or text,notifBody or ("Bạn đã chọn tab: "..text)) if state.timer then pcall(function() state.timer:Cancel() end) state.timer=nil end state.timer=delay(6,function() if tabState[btn] then tabState[btn].clicked=false tabState[btn].timer=nil end end) return end state.clicked=false if state.timer then state.timer=nil end local orig=btn.BackgroundColor3 local t=TweenService:Create(btn,TweenInfo.new(0.12,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundColor3=Color3.fromRGB(70,70,70)}) t:Play() delay(0.12,function() if btn and btn.Parent then local t2=TweenService:Create(btn,TweenInfo.new(0.12,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{BackgroundColor3=orig}) t2:Play() end end) local ok,err=pcall(function() if url and #url>0 then loadstring(game:HttpGet(url,true))() end end) if not ok then showNotif("Lỗi khi chạy script",tostring(err),4) end end) end
+CreateButton("Fly","https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt","Fly","Bấm lần nữa để kích hoạt Fly.") CreateButton("HyperShot","https://raw.githubusercontent.com/XVCHub/Games/main/HyperShot","HyperShot","bấm 1 lần nữa để mở đợi 5giây để khởi động và script này chỉ sử dụng trong riêng game này! .") CreateButton("Dont Wake Brainrot","https://raw.githubusercontent.com/gumanba/Scripts/main/DontWaketheBrainrots","Don't Wake Brainrot","Bấm lần nữa để chạy script đợi 2 giây (cẩn thận).") CreateButton("Aimbot","https://rawscripts.net/raw/Universal-Script-Aimbot-Universal-For-Mobile-and-PC-29153","Aimbot","bấm lần nữa để mở,đợi 10giây,Aim chưa được cập nhật nên còn cùi")
+local function openHub() local zoomOut=TweenService:Create(icon,TweenInfo.new(0.2,Enum.EasingStyle.Back,Enum.EasingDirection.In),{Size=UDim2.new(0,0,0,0)}) zoomOut:Play() zoomOut.Completed:Wait() icon.Visible=false hub.Visible=true hub.Size=UDim2.new(0,100,0,100) hub.BackgroundTransparency=1 local tween=TweenService:Create(hub,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(0,460,0,340),BackgroundTransparency=0}) tween:Play() end
+local function closeHub() local tween=TweenService:Create(hub,TweenInfo.new(0.25,Enum.EasingStyle.Quad,Enum.EasingDirection.In),{Size=UDim2.new(0,100,0,100),BackgroundTransparency=1}) tween:Play() tween.Completed:Wait() hub.Visible=false icon.Visible=true icon.Size=UDim2.new(0,0,0,0) local zoomIn=TweenService:Create(icon,TweenInfo.new(0.3,Enum.EasingStyle.Back,Enum.EasingDirection.Out),{Size=UDim2.new(0,50,0,50)}) zoomIn:Play() end
+icon.MouseButton1Click:Connect(openHub) closeBtn.MouseButton1Click:Connect(closeHub)
+print("✅ Dx HUB V3 (Scrolling + Tab + per-tab notif) Loaded Successfully!")
 
--- tabs
-cb(_d{66,97,121},"https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt")
-cb(_d{72,121,112,101,114,83,104,111,116},"https://raw.githubusercontent.com/XVCHub/Games/main/HyperShot")
-cb(_d{68,111,110,116,32,87,97,107,101,32,66,114,97,105,110,114,111,116},"https://raw.githubusercontent.com/gumanba/Scripts/main/DontWaketheBrainrots")
-cb(_d{65,105,109,98,111,116},"https://rawscripts.net/raw/Universal-Script-Aimbot-Universal-For-Mobile-and-PC-29153")
-
--- home side small text entry + social links area
-local spacer=Instance.new(_d{84,101,120,116,66,111,120},sc)
-spacer.Size=UDim2.new(1,-20,0,48);spacer.Position=UDim2.new(0,10,0,0);spacer.BackgroundColor3=Color3.fromRGB(60,60,60)
-spacer.Text=_d{71,104,105,32,103,105,32,116,104,105,32,103,104,105,46,46,46};spacer.TextColor3=Color3.fromRGB(150,150,150);spacer.Font=Enum.Font.Gotham
-Instance.new(_d{85,73,67,111,114,110},spacer).CornerRadius=UDim.new(0,10)
-local function openUrl(u) pcall(function() -- attempt several methods (KRNL / syn / fireclickdetector fallback)
-  if _G and _G.open_url then pcall(function() _G.open_url(u) end) end
-  -- krnl specific
-  if pcall(function() return krnl end) then pcall(function() krnl.open_url(u) end) end
-  -- syn
-  if pcall(function() return syn end) then pcall(function() syn.request{Url=u, Method="GET"} end) end
-  -- setclipboard as fallback; user can paste
-  pcall(function() setclipboard(u) end)
- end) end
-
-local ybtn=Instance.new(_d{84,101,120,116,66,117,116,116,111,110},sc)
-ybtn.Size=UDim2.new(1,-20,0,56);ybtn.Position=UDim2.new(0,10,0,0);ybtn.BackgroundColor3=Color3.fromRGB(45,45,45)
-ybtn.TextColor3=Color3.fromRGB(255,255,255);ybtn.Font=Enum.Font.GothamBold;ybtn.TextSize=22;ybtn.Text=_d{89,111,117,84,117,98,101}
-Instance.new(_d{85,73,67,111,114,110},ybtn).CornerRadius=UDim.new(0,10)
-ybtn.MouseButton1Click:Connect(function() openUrl("https://youtube.com/@dxprimezz?si=FW-667OpJI8MDgrq") end)
-
-local tbtn=Instance.new(_d{84,101,120,116,66,117,116,116,111,110},sc)
-tbtn.Size=UDim2.new(1,-20,0,56);tbtn.Position=UDim2.new(0,10,0,0);tbtn.BackgroundColor3=Color3.fromRGB(45,45,45)
-tbtn.TextColor3=Color3.fromRGB(255,255,255);tbtn.Font=Enum.Font.GothamBold;tbtn.TextSize=22;tbtn.Text=_d{84,105,107,84,111,107}
-Instance.new(_d{85,73,67,111,114,110},tbtn).CornerRadius=UDim.new(0,10)
-tbtn.MouseButton1Click:Connect(function() openUrl("https://tiktok.com/@dxgamingb") end)
-
-local dbtn=Instance.new(_d{84,101,120,116,66,117,116,116,111,110},sc)
-dbtn.Size=UDim2.new(1,-20,0,56);dbtn.Position=UDim2.new(0,10,0,0);dbtn.BackgroundColor3=Color3.fromRGB(45,45,45)
-dbtn.TextColor3=Color3.fromRGB(255,255,255);dbtn.Font=Enum.Font.GothamBold;dbtn.TextSize=22;dbtn.Text=_d{68,105,115,99,111,114,100}
-Instance.new(_d{85,73,67,111,114,110},dbtn).CornerRadius=UDim.new(0,10)
-dbtn.MouseButton1Click:Connect(function() openUrl("https://discord.gg/3hhQmEBCy") end)
-
--- open/close animations (no icon zoom-out on open per request)
-local function open()
- iN.Visible=false
- H.Visible=true; H.Size=UDim2.new(0,100,0,100); H.BackgroundTransparency=1
- a:Create(H,TweenInfo.new(0.3,Enum.EasingStyle.Quad,Enum.EasingDirection.Out),{Size=UDim2.new(0,460,0,340),BackgroundTransparency=0}):Play()
-end
-local function close()
- a:Create(H,TweenInfo.new(0.25,Enum.EasingStyle.Quad,Enum.EasingDirection.In),{Size=UDim2.new(0,100,0,100),BackgroundTransparency=1}):Play()
- wait(0.25)
- H.Visible=false
- iN.Visible=true
-end
-iN.MouseButton1Click:Connect(open)
-X.MouseButton1Click:Connect(close)
-print("ok")
+--thằng nào sửa code là thg ăn cức bản quyền code thuộc Dx--
